@@ -5,67 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Birthday Letter</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@400;700&display=swap');
+        
         body {
-            font-family: 'Georgia', serif;
-            background-color: #f0f0f0;
+            font-family: 'Lora', serif;
+            background-color: #f8f9fa;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.7;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaec 100%);
         }
+        
+        .page-container {
+            width: 100%;
+            max-width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
         .letter-container {
             background-color: #ffffff;
             max-width: 700px;
             width: 90%;
             padding: 50px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             position: relative;
-            border-radius: 2px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
+        
+        .letter-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
         .letter-header {
             text-align: left;
             margin-bottom: 30px;
             font-style: italic;
             color: #666;
             position: relative;
+            font-size: 1.1em;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
         }
+        
         .letter-content {
             margin-bottom: 30px;
             position: relative;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
         }
+        
         .signature {
             text-align: right;
-            font-style: italic;
-            margin-top: 30px;
+            margin-top: 40px;
             position: relative;
-            font-family: 'Brush Script MT', cursive;
-            font-size: 1.3em;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            color: #333;
+            opacity: 0;
+            animation: fadeIn 2s 1s forwards;
         }
+        
         .confidential {
             text-align: center;
             font-size: 0.9em;
             color: #999;
             margin-top: 30px;
             font-style: italic;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #f0f0f0;
             padding-top: 20px;
             position: relative;
+            opacity: 0;
+            animation: fadeIn 2s 1.5s forwards;
         }
+        
         h1 {
-            font-size: 24px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
             color: #444;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-weight: 700;
         }
+        
         p {
-            margin-bottom: 15px;
-            text-align: justify;
+            margin-bottom: 18px;
+            line-height: 1.8;
             position: relative;
-            font-size: 16px;
+            font-size: 1.05em;
         }
+        
+        p.highlight {
+            font-style: italic;
+            color: #555;
+        }
+        
         .fold-line {
             position: absolute;
             left: 0;
@@ -75,58 +117,204 @@
             z-index: 1;
             pointer-events: none;
         }
+        
         .fold-line-1 {
             top: 33%;
         }
+        
         .fold-line-2 {
             top: 66%;
         }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 105, 120, 0.05);
+            transform: rotate(45deg);
+            opacity: 0.5;
+            z-index: 0;
+        }
+        
+        .heart:before, .heart:after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 105, 120, 0.05);
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            left: -10px;
+        }
+        
+        .heart:after {
+            top: -10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(45deg); }
+            50% { transform: translateY(-10px) rotate(45deg); }
+            100% { transform: translateY(0px) rotate(45deg); }
+        }
+        
         @media (max-width: 600px) {
             .letter-container {
                 padding: 30px;
                 width: 95%;
             }
         }
+        
+        .ribbon {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .ribbon-content {
+            position: absolute;
+            display: block;
+            width: 140px;
+            padding: 5px 0;
+            background-color: #ff96a7;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            color: #fff;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+            text-align: center;
+            font-size: 12px;
+            font-family: 'Lora', serif;
+            transform: rotate(45deg);
+            right: -35px;
+            top: 20px;
+            opacity: 0.9;
+        }
+        
+        /* Create moving hearts */
+        #hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
-    <div class="letter-container">
-        <div class="fold-line fold-line-1"></div>
-        <div class="fold-line fold-line-2"></div>
-        
-        <div class="letter-header">
-            From Heartland,<br>
-            To Dreamland
-        </div>
+    <div id="hearts-container"></div>
+    
+    <div class="page-container">
+        <div class="letter-container">
+            <div class="fold-line fold-line-1"></div>
+            <div class="fold-line fold-line-2"></div>
+            
+            <div class="ribbon">
+                <span class="ribbon-content">Birthday</span>
+            </div>
+            
+            <div class="letter-header">
+                From Heartland,<br>
+                To Dreamland
+            </div>
 
-        <div class="letter-content">
-            <h1>Hey panda,</h1>
-            
-            <p>Today is the most special day because it brought you into this world — and eventually into my life. I can't even begin to express how grateful I am to walk this journey with you, hand in hand, heart to heart. You are the sweetest melody in my song of life, the brightest light in my sky, and the softest warmth in my heart.</p>
-            
-            <p>You are my favourite memory in my life.. watching you laugh like a baby, and you know my favourite watching you eat... You make me special... Enjoying every moment with you is special for me...and most importantly you make me alive...</p>
-            
-            <p>So on your special day, I wish for you everything your heart desires — endless joy, boundless success, and love deeper than the oceans. But above all, I wish you the kind of happiness that you so effortlessly bring into my life and the lives of everyone lucky enough to know you....</p>
-            
-            <p>Thank you for being you — so wonderfully, beautifully, perfectly you.</p>
-            
-            <p>I love you more than words will ever be able to say.</p>
-            
-            <p>Today, tomorrow, and for all the days to come — you have my heart.</p>
-            
-            <p>Your ghussa, your chid chid, your presence your beautiful laugh, your eyes, holding hands and walking... everything about you missing here...</p>
-            
-            <p>Happy Birthday, my beautiful girlfriend, my panda, my roshgula..</p>
-        </div>
+            <div class="letter-content">
+                <h1>Hey panda,</h1>
+                
+                <p>Today is the most special day because it brought you into this world — and eventually into my life. I can't even begin to express how grateful I am to walk this journey with you, hand in hand, heart to heart. You are the sweetest melody in my song of life, the brightest light in my sky, and the softest warmth in my heart.</p>
+                
+                <p>You are my favourite memory in my life.. watching you laugh like a baby, and you know my favourite watching you eat... You make me special... Enjoying every moment with you is special for me...and most importantly you make me alive...</p>
+                
+                <p class="highlight">So on your special day, I wish for you everything your heart desires — endless joy, boundless success, and love deeper than the oceans. But above all, I wish you the kind of happiness that you so effortlessly bring into my life and the lives of everyone lucky enough to know you....</p>
+                
+                <p>Thank you for being you — so wonderfully, beautifully, perfectly you.</p>
+                
+                <p>I love you more than words will ever be able to say.</p>
+                
+                <p>Today, tomorrow, and for all the days to come — you have my heart.</p>
+                
+                <p>Your ghussa, your chid chid, your presence your beautiful laugh, your eyes, holding hands and walking... everything about you missing here...</p>
+                
+                <p>Happy Birthday, my beautiful girlfriend, my panda, my roshgula..</p>
+            </div>
 
-        <div class="signature">
-            Always yours,<br>
-            Gulab jamun
-        </div>
+            <div class="signature">
+                Always yours,<br>
+                Gulab jamun
+            </div>
 
-        <div class="confidential">
-            This letter is confidential, Handle with care.
+            <div class="confidential">
+                This letter is confidential, Handle with care.
+            </div>
         </div>
     </div>
+    
+    <script>
+        // Create floating hearts in the background
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    
+                    // Random position
+                    const posX = Math.random() * window.innerWidth;
+                    const posY = Math.random() * window.innerHeight;
+                    
+                    // Random size
+                    const size = Math.random() * 15 + 5;
+                    
+                    heart.style.left = `${posX}px`;
+                    heart.style.top = `${posY}px`;
+                    heart.style.width = `${size}px`;
+                    heart.style.height = `${size}px`;
+                    
+                    // Random animation duration
+                    const animDuration = Math.random() * 5 + 3;
+                    heart.style.animation = `float ${animDuration}s infinite ease-in-out`;
+                    
+                    // Random delay
+                    heart.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    // Random opacity
+                    heart.style.opacity = Math.random() * 0.3 + 0.1;
+                    
+                    heartsContainer.appendChild(heart);
+                }, i * 200);
+            }
+        }
+        
+        // Add subtle hover effect to paragraphs
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            
+            const paragraphs = document.querySelectorAll('p');
+            paragraphs.forEach(p => {
+                p.addEventListener('mouseover', function() {
+                    this.style.color = '#222';
+                    this.style.transform = 'translateX(3px)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                p.addEventListener('mouseout', function() {
+                    this.style.color = '';
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
